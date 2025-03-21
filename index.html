@@ -10,13 +10,13 @@
         --primary-color: #0071e3;
         --secondary-color: #ff6b6b;
         --accent-color: #5e5ce6;
-        --success-color: #34c759;
-        --warning-color: #ff9500;
+        --success-color: #07af2a;
+        --warning-color: #a7fa33;
         --danger-color: #ff3b30;
         --bg-color: rgba(245, 245, 247, 0.8);
         --card-bg: #ffffff;
         --text-color: #1d1d1f;
-        --light-text: #86868b;
+        --light-text: #646464;
         --border-color: #d2d2d7;
         --border-radius: 12px;
         --box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
@@ -25,7 +25,7 @@
         --header-gradient-mid: #b06ab3;
         --header-gradient-end: #d175b3;
         --highlight-color: #0071e3;
-        --hero-text-color: rgba(255, 255, 255, 0.95);
+        --hero-text-color: rgba(255, 255, 255, 0.75);
         --glass-bg: rgba(255, 255, 255, 0.9);
         --glass-border: rgba(255, 255, 255, 0.2);
         --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -42,7 +42,7 @@
         --bg-color: rgba(0, 0, 0, 0.8);
         --card-bg: #1c1c1e;
         --text-color: #ffffff;
-        --light-text: #8e8e93;
+        --light-text: #DEDDDE;
         --border-color: #38383a;
         --box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
         --header-gradient-start: #000428;
@@ -139,13 +139,13 @@
       
       @keyframes titleGlow {
         0% {
-          text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.1);
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.1);
         }
         50% {
-          text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.4), 0 0 35px rgba(255, 255, 255, 0.2);
+          text-shadow: 0 0 15px rgba(255, 255, 255, 0.3), 0 0 25px rgba(255, 255, 255, 0.4), 0 0 35px rgba(255, 255, 255, 0.2);
         }
         100% {
-          text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.1);
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.1);
         }
       }
       
@@ -187,7 +187,7 @@
         position: relative;
         z-index: 2;
         background: transparent;
-        padding: 0 0 40px;
+        padding: 0 16px 40px;
         max-width: 1200px;
         margin: 0 auto;
         transition: var(--transition);
@@ -207,8 +207,6 @@
       
       .card {
         background: var(--glass-bg);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         border-radius: var(--border-radius);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         padding: 25px;
@@ -258,7 +256,7 @@
       p {
         margin-bottom: 1rem;
         font-size: 1.1rem;
-        color: var(--light-text);
+        color: var(--text-color);
       }
       
       ul {
@@ -275,20 +273,67 @@
       .highlight {
         color: white;
         font-weight: 700;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.5);
-        background-color: rgba(0, 0, 0, 0.2);
-        padding: 2px 6px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        background-image: linear-gradient(135deg, rgba(69, 104, 220, 0.6), rgba(176, 106, 179, 0.6));
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        padding: 3px 8px;
         border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+      
+      .highlight:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+      
+      [data-theme="dark"] .highlight {
+        background-image: linear-gradient(135deg, rgba(0, 4, 40, 0.7), rgba(0, 78, 146, 0.7));
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.05);
       }
       
       .highlight-warning {
         color: var(--warning-color);
-        font-weight: 500;
+        font-weight: 600;
+        background-image: linear-gradient(135deg, rgba(255, 149, 0, 0.15), rgba(255, 149, 0, 0.1));
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        padding: 2px 6px;
+        border-radius: 4px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 149, 0, 0.2);
+        transition: all 0.3s ease;
       }
       
       .highlight-success {
         color: var(--success-color);
-        font-weight: 500;
+        font-weight: 600;
+        background-image: linear-gradient(135deg, rgba(52, 199, 89, 0.15), rgba(52, 199, 89, 0.1));
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        padding: 2px 6px;
+        border-radius: 4px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(52, 199, 89, 0.2);
+        transition: all 0.3s ease;
+      }
+      
+      .highlight-warning:hover, .highlight-success:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+      
+      [data-theme="dark"] .highlight-warning {
+        background-image: linear-gradient(135deg, rgba(255, 149, 0, 0.2), rgba(255, 149, 0, 0.1));
+        border: 1px solid rgba(255, 149, 0, 0.15);
+      }
+      
+      [data-theme="dark"] .highlight-success {
+        background-image: linear-gradient(135deg, rgba(52, 199, 89, 0.2), rgba(52, 199, 89, 0.1));
+        border: 1px solid rgba(52, 199, 89, 0.15);
       }
       
       .cta-section {
@@ -599,7 +644,7 @@
       }
       
       .task-status.in-progress {
-        color: var(--warning-color);
+        color: var(--primary-color);
       }
       
       .task-status.completed::before {
@@ -690,6 +735,7 @@
         display: flex;
         align-items: center;
         margin-bottom: 32px;
+        padding:0 16px;
       }
       
       .profile-image {
@@ -721,6 +767,16 @@
         bottom: 24px;
         right: 24px;
         z-index: 90;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      }
+      
+      .sticky-cta.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
       }
       
       .flex-row {
@@ -736,8 +792,9 @@
       .intro-section {
         display: flex;
         flex-wrap: wrap;
-        gap: 64px;
-        padding-left: 24px;
+        gap: 48px;
+        padding-left: 16px;
+        padding-right: 16px;
       }
       
       .intro-left {
@@ -753,8 +810,44 @@
       .modal-qr-container {
         display: flex;
         justify-content: center;
-        gap: 40px;
-        margin-top: 30px;
+        gap: 20px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      
+      .qr-code {
+        text-align: center;
+        flex: 1;
+        min-width: 160px;
+        max-width: 250px;
+      }
+      
+      .qr-placeholder {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2/3;
+        max-height: 300px;
+        background-color: rgba(128, 128, 128, 0.1);
+        border-radius: var(--border-radius);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        border: 1px dashed var(--border-color);
+        overflow: hidden;
+      }
+      
+      .qr-placeholder img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      
+      .qr-text {
+        font-size: 1rem;
+        color: var(--light-text);
+        margin-top: 8px;
       }
       
       .theme-switch-wrapper {
@@ -850,19 +943,17 @@
       }
       
       .hero-description {
-        max-width: 700px;
+        max-width: 740px;
         margin: 0 auto;
         font-size: 1.2rem;
         margin-top: 1.5rem;
         color: var(--hero-text-color);
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         line-height: 1.7;
         font-weight: 500;
         letter-spacing: 0.3px;
         padding: 20px;
         background: rgba(0, 0, 0, 0.2);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         border-radius: var(--border-radius);
         border: 1px solid rgba(255, 255, 255, 0.2);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -896,7 +987,7 @@
       .tags {
         display: flex;
         flex-wrap: wrap;
-        margin-bottom: 16px;
+        margin-bottom: 4px;
       }
       
       .divider {
@@ -1037,7 +1128,7 @@
       }
       
       .horizontal-timeline-content {
-        color: var(--light-text);
+        color: var(--text-color);
         font-size: 0.95rem;
       }
       
@@ -1171,8 +1262,16 @@
         }
         
         .modal-qr-container {
-          flex-direction: column;
-          align-items: center;
+          gap: 16px;
+        }
+        
+        .qr-code {
+          min-width: 130px;
+          max-width: 45%;
+        }
+        
+        .qr-placeholder {
+          aspect-ratio: 1/1.5;
         }
         
         .theme-switch-wrapper {
@@ -1231,6 +1330,31 @@
           font-size: 0.9rem;
         }
       }
+      
+      /* 添加低高度屏幕适配 */
+      @media (max-height: 700px) {
+        .modal-content {
+          padding: 30px 25px;
+        }
+        
+        .modal-qr-container {
+          margin-top: 15px;
+        }
+        
+        .qr-placeholder {
+          aspect-ratio: 1/1;
+          max-height: 180px;
+        }
+        
+        .qr-text {
+          font-size: 0.9rem;
+          margin-top: 5px;
+        }
+        
+        .payment-note {
+          font-size: 0.85rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1246,7 +1370,7 @@
     
     <header>
       <div class="container header-content">
-        <h1>🚀 A梦的AI建站出海学习实践</h1>
+        <h1>🚀 AI建站出海学习实践</h1>
         <p class="subtitle"><span>零编程基础</span> × <span>AI助力</span> × <span>海外收入</span></p>
         
         <div class="hero-description">
@@ -1256,15 +1380,15 @@
         <div class="value-prop">
           <div class="value-item">
             <div class="value-icon">🔍</div>
-            <div class="value-text">全程透明记录</div>
+            <div class="value-text">实践过程记录</div>
           </div>
           <div class="value-item">
             <div class="value-icon">📚</div>
-            <div class="value-text">资源工具分享</div>
+            <div class="value-text">学习笔记分享</div>
           </div>
           <div class="value-item">
             <div class="value-icon">💡</div>
-            <div class="value-text">设计经验传授</div>
+            <div class="value-text">踩坑经验支招</div>
           </div>
         </div>
         
@@ -1282,19 +1406,18 @@
         <div class="intro-section">
           <div class="intro-left">
             <h3>🙌 我在做什么</h3>
-            <p>这是一个<span class="highlight">陪伴式学习</span>的围观群，我将真实记录自己作为零编程基础的设计师，如何通过AI工具从创意到上线完成网站开发的全过程。</p>
-            <p>你将看到我的每一步学习、实践和思考，包括遇到的问题和解决方案。这不是一个教程，而是一次<span class="highlight">真实的学习旅程分享</span>。</p>
-            <p>为什么要建立这个群？因为我相信<span class="highlight-success">公开学习</span>和<span class="highlight-success">同伴陪伴</span>是最有效的学习方式，也希望我的经历能够帮助到更多和我有相似背景的人。</p>
+            <p>这是一个<span class="highlight-success">陪伴式学习</span>的围观群，我将真实记录自己作为零编程基础的设计师，如何通过AI工具完成出海网站开发的全过程。</p>
+            <p>你将看到我的每一步学习、实践和思考，包括遇到的问题和解决方案。这不是一个教程，而是一次<span class="highlight-success">真实的学习旅程分享</span>。</p>
+            <p>为什么要建立这个群？因为我相信<span class="highlight-success">输出式学习</span>和<span class="highlight-success">同伴陪伴</span>是最有效的学习方式，也希望我的经历能够帮助到更多和我有相似背景的人。</p>
           </div>
           
           <div class="intro-right">
             <h3>✅ 你将获得什么</h3>
+            <p>我的学习资料来源于多个付费课程及社群，我不会搬运付费资料，但我会<span class="highlight-success">分享自己的所学所得所获</span>，以及可公开分享的信息资料。</p>
             <ul>
-              <li>见证零基础设计师如何通过AI工具完成网站开发</li>
-              <li>获取我整理的学习资料、工具和方法论</li>
-              <li>了解设计思维如何与AI技术结合</li>
-              <li>10年+设计经验在网站设计中的应用技巧</li>
-              <li>效率工具使用方法和最佳实践</li>
+              <li>见证零基础设计师如何通过AI工具完成出海网站开发</li>
+              <li>获取我学习过程中整理的笔记资料和工具分享</li>
+              <li>了解设计思维如何与产品开发结合</li>
               <li>一个志同道合的学习社区支持</li>
             </ul>
           </div>
@@ -1310,11 +1433,11 @@
           <div class="profile-info">
             <h3>关于我</h3>
             <div class="tags">
-              <span class="badge badge-primary">非设计专业转行交互设计师</span>
+              <span class="badge badge-primary">半路转行设计师</span>
               <span class="badge badge-primary">前大厂10年+体验设计专家</span>
               <span class="badge badge-primary">效率和生产力工具钻研者</span>
             </div>
-            <p>我是一名非设计专业出身的交互设计师，在大厂积累了10年+的体验设计经验。现在，我正在挑战自己：作为零编程基础的设计师，如何借助AI工具完成从创意到上线的全流程网站开发。</p>
+            <p>我是A梦，一名非设计专业转行的交互设计师，在大厂积累了10年+的体验设计经验。现在，我正在挑战自己：作为零编程基础的新手，如何借助AI工具完成从需求挖掘→产品设计→发布海外上线的全流程网站开发。</p>
           </div>
         </div>
       </div>
@@ -1327,16 +1450,18 @@
         <div class="tasks-timeline">
           <div class="task-item">
             <div class="task-status completed">已完成</div>
-            <div class="task-text">设计一个海外在线游戏网站并发布</div>
-            <div class="task-note">使用AI工具完成了从设计到开发的全流程，网站已成功上线并开始获取流量</div>
+            <div class="task-text">设计一个海外在线游戏网站并发布（需🪜：<a href="https://relaxgames.online" target="_blank">arelaxgames.online</a>）</div>
+            <div class="task-note">使用AI工具完成了从设计到开发的全流程，网站已成功上线并开始获取流量。后续游戏优化、广告投放配置以及海外运营策略将在陪伴群内同步。</div>
           </div>
           <div class="task-item">
-            <div class="task-status in-progress">进行中</div>
-            <div class="task-text">一个AI图片生成站点，围绕从需求洞察到原型设计再到最后AI开发上线</div>
+            <div class="task-status">📋 进行中</div>
+            <div class="task-text">AI 图片生成站</div>
+            <div class="task-note">围绕从需求洞察到原型设计再到最后AI开发上线</div>
           </div>
           <div class="task-item">
-            <div class="task-status">未开始</div>
-            <div class="task-text">AI学习导航站点，把自己学习过程收集、使用和最有价值的学习课程等资料汇聚在一起，帮助大家学习并应用AI</div>
+            <div class="task-status">📋 待开始</div>
+            <div class="task-text">AI 学习导航站</div>
+            <div class="task-note">把自己学习过程收集、使用和最有价值的学习课程等资料汇聚在一起，帮助大家学习并应用AI。</div>
           </div>
         </div>
       </div>
@@ -1353,11 +1478,10 @@
               <div class="image-placeholder-text">海外在线游戏网站截图</div>
             </div>
             <div class="portfolio-content">
-              <h3 class="portfolio-title">海外在线游戏网站</h3>
-              <p>这是我第一个使用AI从零开发并成功发布的网站项目，完全没有编写任何代码。</p>
+              <h3 class="portfolio-title">在线图片压缩工具</h3>
+              <p>这是我第一个工具站点，通过 TinyPNG 在线进行图片压缩。零基础开发的第一个线上网页，全程通过 AI 完成。</p>
               <div class="portfolio-actions">
-                <span>点击图片可放大查看</span>
-                <a href="https://your-game-website-url.com" target="_blank" class="visit-button">访问网站</a>
+                <a href="https://your-game-website-url.com" target="_blank" class="visit-button">立即访问</a>
               </div>
             </div>
           </div>
@@ -1367,11 +1491,10 @@
               <div class="image-placeholder-text">第二个网站项目截图</div>
             </div>
             <div class="portfolio-content">
-              <h3 class="portfolio-title">个人作品集网站</h3>
-              <p>利用AI工具开发的个人作品展示网站，展示了我的设计理念和项目经验。</p>
+              <h3 class="portfolio-title">海外在线游戏网站</h3>
+              <p>这是我第一个使用AI从零开发并成功发布的网站项目，并且基于 AI 完成市场调研和部分运营工作。</p>
               <div class="portfolio-actions">
-                <span>点击图片可放大查看</span>
-                <a href="https://your-portfolio-website-url.com" target="_blank" class="visit-button">访问网站</a>
+                <a href="https://your-portfolio-website-url.com" target="_blank" class="visit-button">立即访问（🪜）</a>
               </div>
             </div>
           </div>
@@ -1384,16 +1507,16 @@
         </div>
         <div class="grid">
           <div class="grid-item">
-            <h3>网站设计知识与技巧</h3>
-            <p>作为前大厂体验设计专家，我将分享如何从用户体验角度思考网站设计，如何打造符合用户心智模型的界面，以及如何运用设计原则提升转化率。</p>
+            <h3>AI建站全过程实录</h3>
+            <p>见证我作为零编程基础的设计师如何通过AI工具从创意到上线完成网站开发的全过程，包括遇到的问题和解决方案，帮助你少走弯路。</p>
           </div>
           <div class="grid-item">
-            <h3>AI学习经验</h3>
-            <p>我会分享我是如何从零开始学习AI工具的，包括Prompt工程、AI绘图、AI编程等，以及如何将这些工具整合起来提升工作效率。</p>
+            <h3>学习笔记与工具分享</h3>
+            <p>获取我学习过程中整理的笔记资料和工具推荐，我会分享所学所得所获，以及可公开分享的信息资料，助你更快掌握AI建站技能。</p>
           </div>
           <div class="grid-item">
-            <h3>效率工具推荐</h3>
-            <p>作为效率工具爱好者，我将分享我日常使用的提升生产力的工具和方法，帮助你在AI时代更高效地工作和学习。</p>
+            <h3>设计思维与产品开发</h3>
+            <p>了解设计思维如何与产品开发结合，如何从用户体验角度思考网站设计，以及如何运用设计原则构建既美观又能有效转化的网站。</p>
           </div>
         </div>
       </div>
@@ -1402,18 +1525,18 @@
         <div class="section-title">
           <h2>📅 学习时间安排</h2>
         </div>
-        <p>学习陪伴群将持续到<span class="highlight">2024年4月底</span>，在这段时间内，我将全程记录我的学习和实践过程。</p>
+        <p>学习陪伴群将持续到<span class="highlight-success">2024年4月底</span>，在这段时间内，我将全程记录我的学习和实践过程。</p>
         
         <div class="horizontal-timeline">
           <div class="horizontal-timeline-item">
             <div class="horizontal-timeline-marker"></div>
             <div class="horizontal-timeline-date">3月24日前</div>
-            <div class="horizontal-timeline-content">加入围观群需<span class="highlight-warning">随喜发红包</span>，金额不限</div>
+            <div class="horizontal-timeline-content">加入围观群需随喜发红包，金额不限</div>
           </div>
           <div class="horizontal-timeline-item">
             <div class="horizontal-timeline-marker"></div>
             <div class="horizontal-timeline-date">3月24日起</div>
-            <div class="horizontal-timeline-content">加入围观群需支付<span class="highlight-warning">固定价格</span></div>
+            <div class="horizontal-timeline-content">加入围观群需支付<span class="highlight-success">固定价格</span></div>
           </div>
           <div class="horizontal-timeline-item">
             <div class="horizontal-timeline-marker"></div>
@@ -1471,7 +1594,7 @@
               <h3>我可以提问吗？</h3>
             </div>
             <div class="faq-content">
-              <p>可以。围观群内可以自由提问，我会根据我的经验和所学知识尽力回答大家的问题。</p>
+              <p>可以。围观群内可以自由提问，我会根据我的经验和所学知识尽力回答大家的问题，并会将大家的解答沉淀下来方便查阅。</p>
             </div>
           </div>
           
@@ -1483,14 +1606,14 @@
               <h3>为什么是陪伴式学习？</h3>
             </div>
             <div class="faq-content">
-              <p>因为我相信学习最大的障碍不是知识本身，而是坚持和方向。通过公开我的学习过程，希望能给大家提供动力和正确的方向。</p>
+              <p>因为我相信学习最大的障碍不是信息差和知识本身，而是行动力和实践。通过公开我的学习过程，增加同侪压力的同时用输出倒逼输入，也希望能给大家提供动力和正确的方向。</p>
             </div>
           </div>
         </div>
       </div>
       
       <div class="cta-section">
-        <h2>🔥 立即加入围观群</h2>
+        <h1>🔥 立即加入围观群</h1>
         <p>添加我的微信，备注"AI建站"，即可加入围观群</p>
         <p><span class="highlight-warning">3月24日前</span>：随喜发红包即可加入（金额不限）</p>
         <p><span class="highlight-warning">3月24日起</span>：固定价格加入</p>
@@ -1503,9 +1626,8 @@
     
     <footer>
       <div class="container">
-        <h2>AI出海建站学习实践</h2>
-        <p>© 2024 AI出海建站学习实践 | 零基础围观群</p>
-        <p>本站由零编程基础设计师使用AI工具完成设计与开发</p>
+        <p>AI出海建站学习实践 | 零基础围观群</p>
+        <p>本站由零编程基础设计师"A梦"使用AI工具完成设计与开发，社交平台关注我"A梦进化论"</p>
       </div>
     </footer>
     
@@ -1523,7 +1645,7 @@
               <div class="image-placeholder-text">微信二维码</div>
             </div>
             <p class="qr-text">扫码添加微信</p>
-            <p class="qr-text">备注：AI建站</p>
+            <p class="qr-text">备注：围观</p>
           </div>
           
           <div class="qr-code">
@@ -1538,7 +1660,7 @@
         <div style="margin-top: 24px;">
           <p><span class="highlight-warning">3月24日前</span>：随喜发红包即可加入（金额不限）</p>
           <p><span class="highlight-warning">3月24日起</span>：固定价格加入</p>
-          <p class="payment-note" style="margin-top: 10px;">支付成功后，请将付款截图发送给我，我会及时将你拉入群</p>
+          <p class="payment-note" style="margin-top: 10px;">支付成功后，请将付款截图发送给我，我会在 3月23日 周日将你拉入群</p>
         </div>
         
         <button class="button" style="margin-top: 24px;" onclick="closeModal()">我知道了</button>
@@ -1645,6 +1767,23 @@
             }
           });
         });
+        
+        // Handle scroll for sticky CTA button
+        const stickyCta = document.querySelector('.sticky-cta');
+        const scrollThreshold = window.innerHeight * 0.5; // Show after scrolling 50% of viewport height
+        
+        window.addEventListener('scroll', function() {
+          if (window.scrollY > scrollThreshold) {
+            stickyCta.classList.add('visible');
+          } else {
+            stickyCta.classList.remove('visible');
+          }
+        });
+        
+        // Check initial scroll position
+        if (window.scrollY > scrollThreshold) {
+          stickyCta.classList.add('visible');
+        }
       });
       
       // Unified CTA Functions - removing the separate toggle functions
