@@ -29,6 +29,8 @@
         --glass-bg: rgba(255, 255, 255, 0.9);
         --glass-border: rgba(255, 255, 255, 0.2);
         --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        --accent-color-rgb: 94, 92, 230;
+        --card-bg-rgb: 255, 255, 255;
       }
       
       [data-theme="dark"] {
@@ -53,6 +55,8 @@
         --glass-bg: rgba(30, 30, 30, 0.9);
         --glass-border: rgba(255, 255, 255, 0.1);
         --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        --accent-color-rgb: 191, 90, 242;
+        --card-bg-rgb: 28, 28, 30;
       }
       
       * {
@@ -256,7 +260,7 @@
       p {
         margin-bottom: 1rem;
         font-size: 1.1rem;
-        color: var(--text-color);
+        color: var(--hero-text-color);
       }
       
       ul {
@@ -689,7 +693,9 @@
       }
       
       .modal-content {
-        background-color: var(--card-bg);
+        background-color: rgba(var(--card-bg-rgb, 255, 255, 255), 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         border-radius: var(--border-radius);
         padding: 40px;
         max-width: 700px;
@@ -699,6 +705,8 @@
         transition: background-color 0.3s ease;
         max-height: 90vh;
         overflow-y: auto;
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       }
       
       .close-modal {
@@ -1070,14 +1078,6 @@
       
       .image-instructions ul {
         margin-bottom: 0;
-      }
-      
-      :root {
-        --accent-color-rgb: 94, 92, 230;
-      }
-      
-      [data-theme="dark"] {
-        --accent-color-rgb: 191, 90, 242;
       }
       
       /* Improved timeline with arrows - horizontal for desktop */
@@ -1636,7 +1636,7 @@
       <div class="modal-content">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <h2>加入AI出海建站围观群</h2>
-        <p>通过以下方式加入我们的学习陪伴群：</p>
+        
         
         <div class="modal-qr-container">
           <div class="qr-code">
@@ -1645,7 +1645,7 @@
               <div class="image-placeholder-text">微信二维码</div>
             </div>
             <p class="qr-text">扫码添加微信</p>
-            <p class="qr-text">备注：围观</p>
+            <p class="qr-text">备注：<span class="highlight-success">围观</span></p>
           </div>
           
           <div class="qr-code">
@@ -1658,8 +1658,8 @@
         </div>
         
         <div style="margin-top: 24px;">
-          <p><span class="highlight-warning">3月24日前</span>：随喜发红包即可加入（金额不限）</p>
-          <p><span class="highlight-warning">3月24日起</span>：固定价格加入</p>
+          <p class="payment-note" ><span class="highlight-success">3月24日前</span>：随喜发红包即可加入（金额不限）</p>
+          <p class="payment-note" ><span class="highlight-success">3月24日起</span>：固定价格加入</p>
           <p class="payment-note" style="margin-top: 10px;">支付成功后，请将付款截图发送给我，我会在 3月23日 周日将你拉入群</p>
         </div>
         
