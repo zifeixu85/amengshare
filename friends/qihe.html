@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>七荷相亲介绍卡</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card-container {
+      width: 375px;
+      background-color: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(255, 92, 138, 0.15);
+      position: relative;
+    }
+    .header {
+      height: 180px;
+      background: linear-gradient(135deg, #FF9370, #FF5C8A);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+    }
+    .header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M30,10 Q50,5 70,10 T90,30 Q95,50 90,70 T70,90 Q50,95 30,90 T10,70 Q5,50 10,30 T30,10" fill="none" stroke="white" stroke-width="1" opacity="0.2" /></svg>');
+      background-size: 150px;
+      opacity: 0.3;
+    }
+    .photo-area {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 3;
+    }
+    .photo-placeholder {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 4px solid white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 18px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    .name-badge {
+      position: absolute;
+      left: 20px;
+      top: 25px;
+      background-color: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(5px);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+    .name-badge .emoji {
+      margin-right: 5px;
+    }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .header-subtitle {
+      font-size: 16px;
+      font-weight: 400;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+    }
+    .header-subtitle .dot {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background-color: white;
+      border-radius: 50%;
+      margin: 0 8px;
+      opacity: 0.7;
+    }
+    .emoji {
+      font-size: 18px;
+      margin-right: 5px;
+    }
+    .content {
+      padding: 0;
+      position: relative;
+    }
+    .intro-box {
+      background-color: #FFF5F8;
+      margin: 20px;
+      padding: 15px 20px;
+      border-radius: 15px;
+      position: relative;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #FF5C8A;
+      font-weight: 500;
+    }
+    .intro-box::before {
+      content: """;
+      position: absolute;
+      top: -10px;
+      left: 15px;
+      font-size: 60px;
+      color: #FF5C8A;
+      opacity: 0.1;
+      font-family: 'Ma Shan Zheng', cursive;
+    }
+    .section {
+      margin: 0 20px 25px;
+      position: relative;
+    }
+    .section:last-child {
+      margin-bottom: 30px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #FF5C8A;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background-color: #FF5C8A;
+      border-radius: 3px;
+    }
+    .section-content {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      gap: 8px;
+    }
+    .tag {
+      display: inline-block;
+      background-color: #FFF0F5;
+      color: #FF5C8A;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      box-shadow: 0 2px 5px rgba(255, 92, 138, 0.1);
+      transition: all 0.3s ease;
+    }
+    .tag:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(255, 92, 138, 0.2);
+    }
+    .highlight {
+      color: #FF5C8A;
+      font-weight: 500;
+    }
+    .footer {
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(135deg, #FFF0F5, #FFF5F8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      color: #FF5C8A;
+      border-top: 1px dashed #FFD0E0;
+      position: relative;
+    }
+    .footer::before, .footer::after {
+      content: "❤";
+      position: absolute;
+      color: #FF5C8A;
+      opacity: 0.2;
+      font-size: 20px;
+    }
+    .footer::before {
+      left: 30px;
+    }
+    .footer::after {
+      right: 30px;
+    }
+    .detail-item {
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 18px;
+    }
+    .detail-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #FF9370;
+    }
+    .two-column {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .column {
+      flex: 1;
+      min-width: 140px;
+    }
+    .info-card {
+      background-color: #FAFAFA;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+    .info-card-title {
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 8px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+    .sub-section {
+      margin-top: 12px;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+      font-size: 14px;
+    }
+    .heart-divider {
+      text-align: center;
+      margin: 15px 0;
+      color: #FFB0C9;
+      font-size: 14px;
+      position: relative;
+    }
+    .heart-divider::before, .heart-divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #FFD0E0, transparent);
+    }
+    .heart-divider::before {
+      left: 0;
+    }
+    .heart-divider::after {
+      right: 0;
+    }
+    .expectation-box {
+      background: linear-gradient(135deg, #FFF5F8, #FFF0F5);
+      border-radius: 15px;
+      padding: 15px;
+      margin-top: 10px;
+      border: 1px dashed #FFD0E0;
+    }
+    .future-dreams {
+      background-color: #F9F9F9;
+      border-left: 3px solid #FF9370;
+      padding: 12px 15px;
+      margin-top: 10px;
+      border-radius: 0 8px 8px 0;
+    }
+    /* 联系区域样式 */
+    .contact-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0px;
+    }
+    
+    .qrcode-area {
+      text-align: center;
+      flex-shrink: 0;
+    }
+    
+    .qrcode-placeholder {
+      width: 150px;
+      height: 150px;
+      border-radius: 12px;
+      background-color: #FFF5F8;
+      border: 2px dashed #FFB0C9;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(255, 92, 138, 0.1);
+      padding: 10px;
+    }
+    
+    .qrcode-placeholder img {
+      width: 130px;
+      height: 130px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    
+    .qrcode-placeholder-text {
+      color: #FF5C8A;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    
+    .qrcode-caption {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #FF5C8A;
+      font-weight: 500;
+    }
+    
+    .contact-info {
+      flex-grow: 1;
+      align-self: flex-start;
+      padding-left: 15px;
+      margin-top: 10px;
+    }
+    
+    .contact-info .detail-item {
+      margin-bottom: 12px;
+    }
+    
+    @media (max-width: 330px) {
+      .contact-container {
+        flex-direction: column;
+      }
+      
+      .contact-info {
+        padding-left: 0;
+        margin-top: 15px;
+      }
+    }
+
+    /* 导出按钮样式 */
+    .export-button-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .export-button {
+      background: linear-gradient(135deg, #FF9370, #FF5C8A);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 92, 138, 0.2);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .export-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 92, 138, 0.3);
+    }
+    
+    .export-button:active {
+      transform: translateY(0px);
+    }
+    
+    .export-button .emoji {
+      margin-right: 8px;
+      font-size: 16px;
+    }
+    
+    /* 导出过程的加载样式 */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+    
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #FFD0E0;
+      border-top: 5px solid #FF5C8A;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card-container">
+    <div class="header">
+      <div class="name-badge">
+        <span class="emoji">✨</span> 97年
+      </div>
+      <div class="photo-area">
+        <div class="photo-placeholder">
+          <img src="https://ameng-image-upload.oss-cn-shanghai.aliyuncs.com/img/qihe.JPG" style="
+    width: inherit;">
+        </div>
+      </div>
+      <div class="header-content">
+        <h1>七 荷</h1>
+        <div class="header-subtitle">
+          <span>义乌/深圳</span>
+          <span class="dot"></span>
+          <span>跨境电商创业者</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="content">
+      <div class="intro-box">
+        28岁，168cm，经济独立，思想独立，赚钱能力强。前互联网大厂设计师，现跨境电商公司股东。寻找以结婚为前提，志同道合的人生伴侣。
+      </div>
+      
+      <div class="section">
+        <div class="section-title">
+          <span class="emoji">👋</span> 关于我
+        </div>
+        <div class="section-content">
+          <div class="two-column">
+            <div class="column">
+              <div class="info-card">
+                <div class="info-card-title">
+                  <span class="emoji">📍</span> 基本信息
+                </div>
+                <div class="detail-item">28岁（97年）</div>
+                <div class="detail-item">身高 168cm</div>
+                <div class="detail-item">江西鹰潭人</div>
+                <div class="detail-item">独生女</div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="info-card">
+                <div class="info-card-title">
+                  <span class="emoji">💼</span> 职业身份
+                </div>
+                <div class="detail-item">跨境电商创业者</div>
+                <div class="detail-item">前互联网设计师</div>
+                <div class="detail-item">AI绘画IP创作者</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tag-container">
+            <span class="tag">喜欢折腾</span>
+            <span class="tag">好奇心强</span>
+            <span class="tag">探索欲望强</span>
+            <span class="tag">喜欢赚钱</span>
+            <span class="tag">独立自主</span>
+            <span class="tag">执行力强</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="heart-divider">❤ ❤ ❤</div>
+      
+      <div class="section">
+        <div class="section-title">
+          <span class="emoji">💫</span> 我的经历
+        </div>
+        <div class="section-content">
+          <div class="detail-item">前互联网大厂设计师，拥有丰富的视觉设计经验</div>
+          <div class="detail-item">现为跨境电商公司股东，主营Temu平台半托管、全托管业务</div>
+          <div class="detail-item">2023年开始做AI绘画类个人IP，有付费课程</div>
+          <div class="detail-item">大学期间经营花店，做过金融IP博主公司的社群运营</div>
+          <div class="detail-item">擅长新媒体视频剪辑、公众号文章撰写、课程设计与直播售卖</div>
+          <div class="detail-item">擅长资源整合，认识很多不同行业的朋友</div>
+        </div>
+      </div>
+      
+      <div class="heart-divider">❤ ❤ ❤</div>
+      
+      <div class="section">
+        <div class="section-title">
+          <span class="emoji">❤️</span> 择偶期望
+        </div>
+        <div class="section-content">
+          <div class="expectation-box">
+            <div class="detail-item"><span class="highlight">以结婚为前提</span>，非诚勿扰</div>
+            <div class="detail-item">寻找有共同目标的人生伴侣，一起在世界升级打怪</div>
+            <div class="detail-item">希望给未来的孩子找个优秀的爸爸</div>
+            <div class="detail-item">视婚姻为长期合作关系，寻找志同道合的合伙人</div>
+            <div class="detail-item">喜欢主动出击，认为找对象和找工作本质相似</div>
+          </div>
+          
+          <div class="sub-section">未来规划：</div>
+          <div class="detail-item">用Deepseek赋能跨境电商主业，提升效率</div>
+          <div class="detail-item">布局小红书国内及出海项目，准备做小红书店群</div>
+          <div class="detail-item">组建幸福家庭，实现个人与事业双丰收</div>
+        </div>
+      </div>
+
+      <div class="heart-divider">❤ ❤ ❤</div>
+      <div class="section">
+        <div class="section-title">
+          <span class="emoji">🔍</span> 兴趣与关注
+        </div>
+        <div class="section-content">
+          <div class="sub-section">长期看好的行业：</div>
+          <div class="tag-container">
+            <span class="tag">Web3</span>
+            <span class="tag">区块链</span>
+            <span class="tag">AI技术</span>
+            <span class="tag">跨境电商</span>
+            <span class="tag">中医养生</span>
+            <span class="tag">大健康</span>
+            <span class="tag">银发经济</span>
+            <span class="tag">宠物行业</span>
+          </div>
+          
+          <div class="sub-section">近期学习兴趣：</div>
+          <div class="tag-container">
+            <span class="tag">化妆技能</span>
+            <span class="tag">减肥健身</span>
+            <span class="tag">服装搭配</span>
+            <span class="tag">Deepseek应用</span>
+          </div>
+          
+          <div class="future-dreams">
+            <div class="info-card-title">
+              <span class="emoji">✨</span> 我能提供的
+            </div>
+            <div class="detail-item">跨境电商从0-1的经验分享</div>
+            <div class="detail-item">AI赋能跨境电商、AI修图技术指导</div>
+            <div class="detail-item">视觉设计行业咨询</div>
+            <div class="detail-item">个人IP打造全流程指导</div>
+            <div class="detail-item">珠宝首饰、白酒货盘资源</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="heart-divider">❤ ❤ ❤</div>
+      
+      <div class="section">
+        <div class="section-title">
+          <span class="emoji">📱</span> 联系我
+        </div>
+        <div class="section-content">
+          <div class="contact-container">
+            <div class="qrcode-area">
+              <div class="qrcode-placeholder">
+                <img src="https://ameng-image-upload.oss-cn-shanghai.aliyuncs.com/img/qiheqrcode.jpg" alt="微信二维码" id="wechatQR">
+                <!-- 如果没有图片链接，可以先用下面的占位 -->
+              
+              </div>
+             
+            </div>
+            <div class="contact-info">
+              <div class="detail-item">我是 <span class="highlight">七荷</span></div>
+              <div class="detail-item">期待与你相遇</div>
+              <div class="detail-item">一起在世界升级打怪</div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="footer">
+      A梦制作
+    </div>
+  </div>
+  
+  <!-- 导出按钮 -->
+  <div class="export-button-container">
+    <button class="export-button" id="exportButton">
+      <span class="emoji">📷</span>3倍高清导出图片
+    </button>
+  </div>
+  
+  <!-- 加载遮罩 -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+  </div>
+  
+  <!-- 导入html2canvas库 -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  
+  <script>
+    document.querySelector('.photo-placeholder').addEventListener('click', function() {
+      alert('点击此处可上传照片（实际功能需在环境中实现）');
+    });
+    
+    // 导出图片功能
+    document.getElementById('exportButton').addEventListener('click', function() {
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      const cardContainer = document.querySelector('.card-container');
+      
+      // 显示加载动画
+      loadingOverlay.style.display = 'flex';
+
+      // 预加载所有图片以确保能够正确渲染
+      const images = cardContainer.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        // 如果图片已经加载完成，直接返回resolved promise
+        if (img.complete) return Promise.resolve();
+        
+        // 否则创建一个promise等待图片加载
+        return new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+          // 确保CORS设置正确
+          img.crossOrigin = 'anonymous';
+        });
+      });
+
+      // 等待所有图片加载完成后再截图
+      Promise.all(imagePromises)
+        .then(() => {
+          // 创建一个包裹元素添加边距
+          const wrapper = document.createElement('div');
+          wrapper.style.padding = '36px';
+          wrapper.style.backgroundColor = '#f5f5f5';
+          wrapper.style.display = 'inline-block';
+          wrapper.style.borderRadius = '36px';
+          
+          // 克隆卡片容器
+          const clonedCard = cardContainer.cloneNode(true);
+          wrapper.appendChild(clonedCard);
+          
+          // 临时添加到文档以便截图
+          wrapper.style.position = 'absolute';
+          wrapper.style.left = '-9999px';
+          document.body.appendChild(wrapper);
+          
+          // 设置导出选项，3倍分辨率
+          const options = {
+            scale: 3,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#f5f5f5',
+            logging: true,
+            imageTimeout: 15000 // 提高超时时间
+          };
+          
+          // 使用html2canvas将页面转为Canvas
+          return html2canvas(wrapper, options).then(canvas => {
+            // 移除临时元素
+            document.body.removeChild(wrapper);
+            return canvas;
+          });
+        })
+        .then(canvas => {
+          // 转换Canvas为图片并下载
+          const imageData = canvas.toDataURL('image/jpeg', 0.95);
+          const link = document.createElement('a');
+          link.href = imageData;
+          link.download = '七荷相亲卡片.jpg';
+          link.click();
+          
+          // 隐藏加载动画
+          loadingOverlay.style.display = 'none';
+        })
+        .catch(function(error) {
+          console.error('导出图片失败:', error);
+          alert('导出图片失败，请确保图片能正常加载后重试');
+          loadingOverlay.style.display = 'none';
+        });
+    });
+  </script>
+</body>
+</html>
