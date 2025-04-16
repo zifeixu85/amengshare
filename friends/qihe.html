@@ -25,8 +25,12 @@
       background-color: white;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(255, 92, 138, 0.15);
+      box-shadow: 0 15px 35px rgba(255, 92, 138, 0.25), 0 5px 15px rgba(0, 0, 0, 0.1);
       position: relative;
+      transition: box-shadow 0.3s ease;
+    }
+    .card-container:hover {
+      box-shadow: 0 20px 40px rgba(255, 92, 138, 0.3), 0 10px 20px rgba(0, 0, 0, 0.15);
     }
     .header {
       height: 180px;
@@ -372,42 +376,6 @@
       }
     }
 
-    /* 导出按钮样式 */
-    .export-button-container {
-      text-align: center;
-      margin: 20px 0;
-    }
-    
-    .export-button {
-      background: linear-gradient(135deg, #FF9370, #FF5C8A);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(255, 92, 138, 0.2);
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .export-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 92, 138, 0.3);
-    }
-    
-    .export-button:active {
-      transform: translateY(0px);
-    }
-    
-    .export-button .emoji {
-      margin-right: 8px;
-      font-size: 16px;
-    }
-    
     /* 导出过程的加载样式 */
     .loading-overlay {
       position: fixed;
@@ -436,6 +404,30 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    
+    /* 打印样式 */
+    @media print {
+      @page {
+        size: auto;
+        margin: 0;
+      }
+      
+      body {
+        background-color: #f5f5f5 !important;
+        padding: 36px !important;
+        min-height: auto !important;
+      }
+      
+      .export-button-container, .loading-overlay {
+        display: none !important;
+      }
+      
+      .card-container {
+        box-shadow: 0 20px 40px rgba(255, 92, 138, 0.3), 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -446,7 +438,7 @@
       </div>
       <div class="photo-area">
         <div class="photo-placeholder">
-          <img src="https://ameng-image-upload.oss-cn-shanghai.aliyuncs.com/img/qihe.JPG" style="
+          <img src="images/qihe.jpg" style="
     width: inherit;">
         </div>
       </div>
@@ -592,7 +584,7 @@
           <div class="contact-container">
             <div class="qrcode-area">
               <div class="qrcode-placeholder">
-                <img src="https://ameng-image-upload.oss-cn-shanghai.aliyuncs.com/img/qiheqrcode.jpg" alt="微信二维码" id="wechatQR">
+                <img src="images/qiheqrcode.jpg" alt="微信二维码" id="wechatQR">
                 <!-- 如果没有图片链接，可以先用下面的占位 -->
               
               </div>
@@ -615,101 +607,14 @@
     </div>
   </div>
   
-  <!-- 导出按钮 -->
-  <div class="export-button-container">
-    <button class="export-button" id="exportButton">
-      <span class="emoji">📷</span>3倍高清导出图片
-    </button>
-  </div>
-  
   <!-- 加载遮罩 -->
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-spinner"></div>
   </div>
   
-  <!-- 导入html2canvas库 -->
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  
   <script>
     document.querySelector('.photo-placeholder').addEventListener('click', function() {
       alert('点击此处可上传照片（实际功能需在环境中实现）');
-    });
-    
-    // 导出图片功能
-    document.getElementById('exportButton').addEventListener('click', function() {
-      const loadingOverlay = document.getElementById('loadingOverlay');
-      const cardContainer = document.querySelector('.card-container');
-      
-      // 显示加载动画
-      loadingOverlay.style.display = 'flex';
-
-      // 预加载所有图片以确保能够正确渲染
-      const images = cardContainer.querySelectorAll('img');
-      const imagePromises = Array.from(images).map(img => {
-        // 如果图片已经加载完成，直接返回resolved promise
-        if (img.complete) return Promise.resolve();
-        
-        // 否则创建一个promise等待图片加载
-        return new Promise((resolve, reject) => {
-          img.onload = resolve;
-          img.onerror = reject;
-          // 确保CORS设置正确
-          img.crossOrigin = 'anonymous';
-        });
-      });
-
-      // 等待所有图片加载完成后再截图
-      Promise.all(imagePromises)
-        .then(() => {
-          // 创建一个包裹元素添加边距
-          const wrapper = document.createElement('div');
-          wrapper.style.padding = '36px';
-          wrapper.style.backgroundColor = '#f5f5f5';
-          wrapper.style.display = 'inline-block';
-          wrapper.style.borderRadius = '36px';
-          
-          // 克隆卡片容器
-          const clonedCard = cardContainer.cloneNode(true);
-          wrapper.appendChild(clonedCard);
-          
-          // 临时添加到文档以便截图
-          wrapper.style.position = 'absolute';
-          wrapper.style.left = '-9999px';
-          document.body.appendChild(wrapper);
-          
-          // 设置导出选项，3倍分辨率
-          const options = {
-            scale: 3,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: '#f5f5f5',
-            logging: true,
-            imageTimeout: 15000 // 提高超时时间
-          };
-          
-          // 使用html2canvas将页面转为Canvas
-          return html2canvas(wrapper, options).then(canvas => {
-            // 移除临时元素
-            document.body.removeChild(wrapper);
-            return canvas;
-          });
-        })
-        .then(canvas => {
-          // 转换Canvas为图片并下载
-          const imageData = canvas.toDataURL('image/jpeg', 0.95);
-          const link = document.createElement('a');
-          link.href = imageData;
-          link.download = '七荷相亲卡片.jpg';
-          link.click();
-          
-          // 隐藏加载动画
-          loadingOverlay.style.display = 'none';
-        })
-        .catch(function(error) {
-          console.error('导出图片失败:', error);
-          alert('导出图片失败，请确保图片能正常加载后重试');
-          loadingOverlay.style.display = 'none';
-        });
     });
   </script>
 </body>
