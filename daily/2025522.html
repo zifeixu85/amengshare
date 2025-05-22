@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A梦的创业日志 | 2025年5月22日</title>
+  <style>
+    :root {
+      --primary-color: #3a86ff;
+      --text-color: #333;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --border-color: #e0e0e0;
+      --highlight-color: #ffbe0b;
+      --section-bg: #f0f7ff;
+      --tag-bg: #e9ecef;
+      --tag-color: #495057;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 1rem;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .date {
+      font-size: 1.1rem;
+      color: #666;
+      font-weight: 500;
+    }
+    
+    section {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    h2 {
+      color: var(--primary-color);
+      font-size: 1.4rem;
+      margin-top: 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+    }
+    
+    h2 .emoji {
+      margin-right: 8px;
+      font-size: 1.5rem;
+    }
+    
+    h3 {
+      color: #444;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      margin: 1rem 0;
+    }
+    
+    ul {
+      padding-left: 1.5rem;
+    }
+    
+    li {
+      margin-bottom: 0.8rem;
+    }
+    
+    .highlight {
+      background-color: var(--section-bg);
+      border-left: 4px solid var(--highlight-color);
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .tag {
+      display: inline-block;
+      background-color: var(--tag-bg);
+      color: var(--tag-color);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .insight-card {
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--primary-color);
+    }
+    
+    .insight-card h4 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+    
+    .interview-section {
+      margin-bottom: 1.5rem;
+    }
+    
+    .quote {
+      font-style: italic;
+      color: #555;
+      border-left: 3px solid #ddd;
+      padding-left: 1rem;
+      margin: 1rem 0;
+    }
+    
+    /* 图片相关样式 */
+    .image-container {
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .image-container img:hover {
+      transform: scale(1.02);
+    }
+    
+    /* 图片放大查看相关样式 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      overflow: auto;
+    }
+    
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      color: #f1f1f1;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      section {
+        padding: 1rem;
+      }
+      
+      .modal-content {
+        max-width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>A梦的创业日志</h1>
+      <div class="date">2025年5月22日</div>
+    </header>
+    
+    <section>
+      <h2><span class="emoji">📝</span>今天做了什么</h2>
+      
+      <div class="interview-section">
+        <h3>🔍 设计师访谈</h3>
+        <p>今天采访了两位设计师：</p>
+        <ul>
+          <li>一位在<span class="tag">AI影像类创业公司</span>做交互设计</li>
+          <li>一位是<span class="tag">生财有术圈</span>内的UI设计师</li>
+        </ul>
+        
+        <p>我们深入讨论了关于灵感素材收集的实际痛点。有意思的是，两人都提到一个关键问题：</p>
+        
+        <div class="highlight">
+          <p>几乎没见过能直接展示真实App界面截图的工具，大家的信息来源零散，而且国内外设计师之间的素材信息差非常大。</p>
+        </div>
+        
+        <p>这让我对「展示真实截图」这条路更加笃定——因为这种内容不仅真实可信，也不会有版权风险，相比那些"飞机稿"和概念稿，更适合做系统性沉淀。</p>
+        
+        <p>此外，他们也都提到更倾向于将设计参考直接放在设计源文件中，不会专门保存到本地，因为那样太麻烦。</p>
+      </div>
+      
+      <div class="interview-section">
+        <h3>🔎 竞品分析</h3>
+        <p>花了不少时间研究了一个竞品的产品细节。对方在素材积累方面做得非常扎实，特别是：</p>
+        <ul>
+          <li>录屏素材收集</li>
+          <li>iOS系统界面展示</li>
+        </ul>
+        
+        <p>我的感受是：如果我们不思考差异化策略，刚开始可能很难竞争。这几天会重点查阅技术方案，也看看能不能绕开他们强势的部分，找到我们自己的发力点。</p>
+      </div>
+      
+      <div class="interview-section">
+        <h3>💻 Chirpping项目进展</h3>
+        <p>这个抓取推特的产品今天也盯了一下，之前有个引用推文和转发显示问题，一直没修，这几天准备改一改，顺便请教一下朋友。这个项目虽然简单，但好歹是我第一个有后台功能的产品，能顺利上线也算个不错的节点。</p>
+      </div>
+      
+      <div class="interview-section">
+        <h3>📺 设计灵感</h3>
+        <p>今天看了原Apple首席设计师 Jony Ive 接受 Stripe CEO 采访的视频。很有触动。他谈到创新、责任感、简洁的设计理念，还有团队氛围建设，很多观点让我联想到AI产品该怎么走：</p>
+        
+        <div class="quote">
+          我们是不是应该做一些更有情感的设定？是不是应该让AI产品传递出"我被关心"的感觉？这些细节决定了一个产品能不能让人信赖。
+        </div>
+        
+        <p>关于 Jony Ive 的访谈整理了学习笔记，非常可视化，<a href="https://bibigpt.co/share/html/c1b9b340-e7d1-4883-a57c-9e7b07ac241f" target="_blank">链接在此</a></p>
+        
+        <div class="image-container">
+          <img id="myImg" src="https://ameng-image-upload.oss-cn-shanghai.aliyuncs.com/img/CleanShot%202025-05-23%20at%2002.06.53.png" alt="Jony Ive 访谈笔记" onclick="openModal()">
+        </div>
+      </div>
+    </section>
+    
+    <section>
+      <h2><span class="emoji">💡</span>有什么思考/收获</h2>
+      
+      <div class="insight-card">
+        <h4>设计师用户需求验证</h4>
+        <p>设计师用户确实存在信息差，且偏好真实截图而非概念图，这是产品方向的有力验证。</p>
+      </div>
+      
+      <div class="insight-card">
+        <h4>潜在护城河</h4>
+        <p>素材自动化采集、集中展示，可能是一个长期可打磨的护城河。</p>
+      </div>
+      
+      <div class="insight-card">
+        <h4>AI产品的情感价值</h4>
+        <p>Jony Ive 的话让我意识到："被在乎的体验"是AI产品的重要特质。不是只有效率，情感和细节决定了最终的差异化价值。</p>
+      </div>
+      
+      <div class="insight-card">
+        <h4>创新责任</h4>
+        <p>AI开发不仅是技术挑战，更有社会和文化的责任，应该鼓励不被理解的创新。</p>
+      </div>
+    </section>
+    
+    <section>
+      <h2><span class="emoji">🚧</span>碰到的卡点</h2>
+      <div class="highlight">
+        <p>Chirpping展示逻辑仍有问题，引用/转发处理未完善；这两天没认真改，发现还没弄好；周末花时间改一改，毕竟第一个自己开发的带后台逻辑产品，还是期望能上线。</p>
+      </div>
+    </section>
+    
+    <section>
+      <h2><span class="emoji">🙏</span>需要帮助</h2>
+      <div class="highlight">
+        <p>我需要用最近的调研资料和 o3 深度交流了</p>
+      </div>
+    </section>
+    
+    <!-- 图片查看模态框 -->
+    <div id="imageModal" class="modal">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <img class="modal-content" id="modalImg">
+    </div>
+    
+    <footer>
+      <p>© 2025 A梦的创业日志 | <a href="https://www.amengshare.com">amengshare.com</a></p>
+    </footer>
+  </div>
+  
+  <script>
+    // 图片查看功能
+    function openModal() {
+      document.getElementById("imageModal").style.display = "block";
+      document.getElementById("modalImg").src = document.getElementById("myImg").src;
+    }
+    
+    function closeModal() {
+      document.getElementById("imageModal").style.display = "none";
+    }
+    
+    // 点击模态框外部也可关闭
+    window.onclick = function(event) {
+      var modal = document.getElementById("imageModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
