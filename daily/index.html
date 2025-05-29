@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A梦的日记本</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 动态背景 */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 浮动粒子效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 玻璃效果卡片 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 头部 */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 主要内容区域 */
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 70vh;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 320px;
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            width: 0;
+            padding: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .sidebar h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        /* 日记列表 */
+        .journal-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .journal-item {
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .journal-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .journal-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .journal-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+        }
+
+        .journal-title {
+            font-size: 1.1rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* 内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 30px;
+            position: relative;
+        }
+
+        /* 首页预览网格 */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .preview-card {
+            padding: 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .preview-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .preview-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .preview-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .preview-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+        .preview-content {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .preview-tags {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .preview-tag {
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* 统计信息 */
+        .stats-section {
+            margin-bottom: 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* 日记内容视图 */
+        .journal-content {
+            display: none;
+            color: white;
+            line-height: 1.8;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .journal-content.active {
+            display: block;
+        }
+
+        .journal-content h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .journal-content h2 {
+            font-size: 1.5rem;
+            margin: 20px 0 10px 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .journal-content p {
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .journal-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .journal-content li {
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 搜索栏 */
+        .search-section {
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-box:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                max-height: 300px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .preview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-card {
+                padding: 20px;
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 返回按钮 */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: none;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .back-button.visible {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态背景 -->
+    <div class="background-animation"></div>
+    
+    <!-- 浮动粒子 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 返回按钮 -->
+    <button class="back-button" id="backButton" onclick="journalNav.showLanding()">
+        ←
+    </button>
+
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header glass-card" onclick="journalNav.showLanding()">
+            <h1>📖 A梦的日记本</h1>
+            <p>记录每一天的思考与成长 · 自动发现新内容</p>
+        </header>
+
+        <!-- 主要内容 -->
+        <div class="main-content">
+            <!-- 侧边栏 -->
+            <aside class="sidebar glass-card" id="sidebar">
+                <h3>📅 日记列表</h3>
+                <div class="journal-list" id="journalList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <div class="loading-text">正在扫描日记文件...</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 内容区域 -->
+            <main class="content-area glass-card">
+                <!-- 首页视图 -->
+                <div class="landing-view" id="landingView">
+                    <!-- 搜索栏 -->
+                    <div class="search-section">
+                        <input type="text" class="search-box" placeholder="🔍 搜索日记内容..." id="searchBox">
+                    </div>
+
+                    <!-- 统计信息 -->
+                    <div class="stats-section">
+                        <div class="stats-grid">
+                            <div class="stat-card glass-card">
+                                <div class="stat-number" id="totalEntries">0</div>
+                                <div class="stat-label">篇日记</div>
+                            </div>
+                            <div class="stat-card glass-card">
+                                <div class="stat-number" id="daysSince">0</div>
+                                <div class="stat-label">天坚持</div>
+                            </div>
+                            <div class="stat-card glass-card">
+                                <div class="stat-number" id="latestDate">--</div>
+                                <div class="stat-label">最新更新</div>
+                            </div>
+                            <div class="stat-card glass-card">
+                                <div class="stat-number" id="totalWords">0</div>
+                                <div class="stat-label">总字数</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 日记预览网格 -->
+                    <div class="preview-grid" id="previewGrid">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <div class="loading-text">正在加载日记预览...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 日记内容 -->
+                <div class="journal-content" id="journalContent">
+                    <!-- 动态加载的日记内容 -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        class AutoJournalNavigator {
+            constructor() {
+                this.journals = [];
+                this.currentJournal = null;
+                this.baseUrl = 'https://www.amengshare.com/daily/';
+                this.filteredJournals = [];
+                this.init();
+            }
+
+            async init() {
+                this.createParticles();
+                await this.autoDiscoverJournals();
+                this.renderJournalList();
+                this.renderPreviewGrid();
+                this.updateStats();
+                this.setupSearch();
+            }
+
+            // 创建浮动粒子效果
+            createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.width = Math.random() * 4 + 2 + 'px';
+                    particle.style.height = particle.style.width;
+                    particle.style.animationDelay = Math.random() * 20 + 's';
+                    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
+
+            // 自动发现日记文件
+            async autoDiscoverJournals() {
+                const currentYear = new Date().getFullYear();
+                const startYear = 2025; // 从2025年开始扫描
+                const foundJournals = [];
+
+                // 扫描可能的日期范围
+                for (let year = startYear; year <= currentYear; year++) {
+                    for (let month = 1; month <= 12; month++) {
+                        const daysInMonth = new Date(year, month, 0).getDate();
+                        for (let day = 1; day <= daysInMonth; day++) {
+                            // 生成可能的文件名格式
+                            const filename = `${year}${month}${day}.html`;
+                            const paddedFilename = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}.html`;
+                            
+                            // 尝试两种格式
+                            for (const fname of [filename, paddedFilename]) {
+                                try {
+                                    const response = await fetch(this.baseUrl + fname);
+                                    if (response.ok) {
+                                        const html = await response.text();
+                                        const journal = this.parseJournal(html, fname, year, month, day);
+                                        if (journal) {
+                                            foundJournals.push(journal);
+                                            console.log(`发现日记: ${fname}`);
+                                        }
+                                    }
+                                } catch (error) {
+                                    // 静默处理错误，继续扫描
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 按日期排序（最新的在前）
+                this.journals = foundJournals.sort((a, b) => new Date(b.date) - new Date(a.date));
+                this.filteredJournals = [...this.journals];
+                
+                console.log(`总共发现 ${this.journals.length} 篇日记`);
+            }
+
+            // 解析日记内容
+            parseJournal(html, filename, year, month, day) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // 提取标题
+                const title = doc.querySelector('title')?.textContent || 
+                             doc.querySelector('h1')?.textContent || 
+                             '未命名日记';
+
+                // 创建日期对象
+                const date = new Date(year, month - 1, day);
+
+                // 提取正文内容用于预览
+                const bodyText = doc.body.textContent || doc.body.innerText || '';
+                const preview = this.extractPreview(bodyText);
+                
+                // 提取关键词作为标签
+                const tags = this.extractTags(bodyText);
+
+                // 计算字数
+                const wordCount = bodyText.replace(/\s/g, '').length;
+
+                return {
+                    filename,
+                    title: title.trim(),
+                    date,
+                    content: html,
+                    preview,
+                    tags,
+                    wordCount,
+                    formattedDate: this.formatDate(date),
+                    url: this.baseUrl + filename
+                };
+            }
+
+            // 提取预览文本
+            extractPreview(text) {
+                // 清理文本并提取前200个字符
+                const cleanText = text.replace(/\s+/g, ' ').trim();
+                return cleanText.length > 200 ? cleanText.substring(0, 200) + '...' : cleanText;
+            }
+
+            // 提取标签
+            extractTags(text) {
+                const keywords = ['设计', '开发', '学习', '思考', '工作', '生活', '创业', '技术', '产品'];
+                const foundTags = keywords.filter(keyword => text.includes(keyword));
+                return foundTags.slice(0, 3); // 最多3个标签
+            }
+
+            // 格式化日期
+            formatDate(date) {
+                return date.toLocaleDateString('zh-CN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+
+            // 渲染日记列表
+            renderJournalList() {
+                const listContainer = document.getElementById('journalList');
+                
+                if (this.filteredJournals.length === 0) {
+                    listContainer.innerHTML = '<p style="color: rgba(255,255,255,0.7); text-align: center;">暂无日记</p>';
+                    return;
+                }
+
+                listContainer.innerHTML = this.filteredJournals.map((journal, index) => `
+                    <div class="journal-item" onclick="journalNav.loadJournal(${this.journals.indexOf(journal)})">
+                        <div class="journal-date">${journal.formattedDate}</div>
+                        <div class="journal-title">${journal.title}</div>
+                    </div>
+                `).join('');
+            }
+
+            // 渲染预览网格
+            renderPreviewGrid() {
+                const gridContainer = document.getElementById('previewGrid');
+                
+                if (this.filteredJournals.length === 0) {
+                    gridContainer.innerHTML = '<p style="color: rgba(255,255,255,0.7); text-align: center; grid-column: 1/-1;">暂无日记</p>';
+                    return;
+                }
+
+                gridContainer.innerHTML = this.filteredJournals.map((journal, index) => `
+                    <div class="preview-card glass-card" onclick="journalNav.loadJournal(${this.journals.indexOf(journal)})">
+                        <div class="preview-header">
+                            <div>
+                                <div class="preview-title">${journal.title}</div>
+                                <div style="color: rgba(255,255,255,0.6); font-size: 0.8rem;">${journal.wordCount} 字</div>
+                            </div>
+                            <div class="preview-date">${journal.date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}</div>
+                        </div>
+                        <div class="preview-content">${journal.preview}</div>
+                        ${journal.tags.length > 0 ? `
+                            <div class="preview-tags">
+                                ${journal.tags.map(tag => `<span class="preview-tag">${tag}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+
+            // 加载特定日记
+            async loadJournal(index) {
+                const journal = this.journals[index];
+                if (!journal) return;
+
+                this.currentJournal = journal;
+
+                // 更新活跃状态
+                document.querySelectorAll('.journal-item').forEach((item, i) => {
+                    const journalIndex = this.journals.indexOf(this.filteredJournals[i]);
+                    item.classList.toggle('active', journalIndex === index);
+                });
+
+                // 隐藏首页，显示日记内容
+                document.getElementById('landingView').style.display = 'none';
+                document.getElementById('backButton').classList.add('visible');
+                
+                const contentDiv = document.getElementById('journalContent');
+                
+                // 解析并显示内容
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(journal.content, 'text/html');
+                const bodyContent = doc.body.innerHTML;
+                
+                contentDiv.innerHTML = bodyContent;
+                contentDiv.classList.add('active');
+
+                // 调整样式
+                this.adjustContentStyles(contentDiv);
+            }
+
+            // 调整内容样式
+            adjustContentStyles(contentDiv) {
+                const headings = contentDiv.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                headings.forEach(h => {
+                    h.style.color = 'white';
+                    h.style.marginBottom = '15px';
+                });
+
+                const paragraphs = contentDiv.querySelectorAll('p');
+                paragraphs.forEach(p => {
+                    p.style.color = 'rgba(255, 255, 255, 0.8)';
+                    p.style.lineHeight = '1.8';
+                    p.style.marginBottom = '15px';
+                });
+
+                const lists = contentDiv.querySelectorAll('ul, ol');
+                lists.forEach(list => {
+                    list.style.color = 'rgba(255, 255, 255, 0.8)';
+                    list.style.marginLeft = '20px';
+                });
+            }
+
+            // 设置搜索功能
+            setupSearch() {
+                const searchBox = document.getElementById('searchBox');
+                searchBox.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    
+                    if (query === '') {
+                        this.filteredJournals = [...this.journals];
+                    } else {
+                        this.filteredJournals = this.journals.filter(journal => 
+                            journal.title.toLowerCase().includes(query) ||
+                            journal.preview.toLowerCase().includes(query) ||
+                            journal.tags.some(tag => tag.toLowerCase().includes(query))
+                        );
+                    }
+                    
+                    this.renderJournalList();
+                    this.renderPreviewGrid();
+                });
+            }
+
+            // 更新统计信息
+            updateStats() {
+                document.getElementById('totalEntries').textContent = this.journals.length;
+                
+                if (this.journals.length > 0) {
+                    const latestDate = this.journals[0].date;
+                    const firstDate = this.journals[this.journals.length - 1].date;
+                    const daysDiff = Math.ceil((latestDate - firstDate) / (1000 * 60 * 60 * 24)) + 1;
+                    const totalWords = this.journals.reduce((sum, journal) => sum + journal.wordCount, 0);
+                    
+                    document.getElementById('daysSince').textContent = daysDiff;
+                    document.getElementById('latestDate').textContent = 
+                        latestDate.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+                    document.getElementById('totalWords').textContent = totalWords.toLocaleString();
+                }
+            }
+
+            // 返回首页
+            showLanding() {
+                document.getElementById('landingView').style.display = 'block';
+                document.getElementById('journalContent').classList.remove('active');
+                document.getElementById('backButton').classList.remove('visible');
+                document.querySelectorAll('.journal-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.currentJournal = null;
+            }
+        }
+
+        // 初始化应用
+        const journalNav = new AutoJournalNavigator();
+
+        // 键盘导航
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                journalNav.showLanding();
+            }
+        });
+    </script>
+</body>
+</html>
