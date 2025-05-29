@@ -136,17 +136,22 @@
             min-height: 70vh;
         }
 
-        /* 侧边栏 */
+        /* 侧边栏 - 固定宽度 */
         .sidebar {
-            width: 320px;
+            width: 280px; /* 固定宽度 */
+            min-width: 280px; /* 确保最小宽度 */
+            max-width: 280px; /* 确保最大宽度 */
             padding: 20px;
             max-height: 80vh;
             overflow-y: auto;
             transition: all 0.3s ease;
+            flex-shrink: 0; /* 防止收缩 */
         }
 
         .sidebar.hidden {
             width: 0;
+            min-width: 0;
+            max-width: 0;
             padding: 0;
             opacity: 0;
             overflow: hidden;
@@ -157,20 +162,23 @@
             margin-bottom: 20px;
             font-size: 1.3rem;
             text-align: center;
+            white-space: nowrap; /* 防止换行 */
         }
 
         /* 日记列表 */
         .journal-list {
             display: grid;
-            gap: 15px;
+            gap: 12px;
         }
 
         .journal-item {
-            padding: 15px;
-            border-radius: 15px;
+            padding: 12px 15px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%; /* 确保宽度一致 */
+            box-sizing: border-box;
         }
 
         .journal-item:hover {
@@ -184,15 +192,19 @@
         }
 
         .journal-date {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 5px;
-        }
-
-        .journal-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: white;
             font-weight: 600;
+            margin-bottom: 2px;
+            white-space: nowrap; /* 防止换行 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .journal-weekday {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            white-space: nowrap; /* 防止换行 */
         }
 
         /* 内容区域 */
@@ -200,6 +212,56 @@
             flex: 1;
             padding: 30px;
             position: relative;
+        }
+
+        /* 内容控制栏 */
+        .content-controls {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .content-controls.visible {
+            display: flex;
+        }
+
+        .content-title {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .toggle-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            font-weight: 600;
         }
 
         /* 首页预览网格 */
@@ -322,8 +384,6 @@
         /* 日记内容视图 */
         .journal-content {
             display: none;
-            color: white;
-            line-height: 1.8;
             animation: fadeIn 0.5s ease;
         }
 
@@ -331,31 +391,88 @@
             display: block;
         }
 
-        .journal-content h1 {
+        /* 原始视图 - iframe */
+        .original-view {
+            display: block;
+        }
+
+        .original-view iframe {
+            width: 100%;
+            height: 75vh;
+            border: none;
+            border-radius: 15px;
+            background: white;
+        }
+
+        /* 统一视图 - 解析内容 */
+        .unified-view {
+            display: none;
+            color: white;
+            line-height: 1.8;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .unified-view h1 {
             font-size: 2rem;
             margin-bottom: 10px;
             color: white;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-        .journal-content h2 {
+        .unified-view h2 {
             font-size: 1.5rem;
-            margin: 20px 0 10px 0;
+            margin: 25px 0 15px 0;
             color: rgba(255, 255, 255, 0.9);
+            padding-left: 15px;
+            border-left: 4px solid #667eea;
         }
 
-        .journal-content p {
+        .unified-view h3 {
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .unified-view p {
             margin-bottom: 15px;
             color: rgba(255, 255, 255, 0.8);
         }
 
-        .journal-content ul {
+        .unified-view ul {
             margin-left: 20px;
             margin-bottom: 15px;
         }
 
-        .journal-content li {
-            margin-bottom: 5px;
+        .unified-view li {
+            margin-bottom: 8px;
             color: rgba(255, 255, 255, 0.8);
+            list-style-type: none;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .unified-view li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .unified-view a {
+            color: #4ecdc4;
+            text-decoration: none;
+            border-bottom: 1px dotted #4ecdc4;
+        }
+
+        .unified-view a:hover {
+            color: #45b7d1;
+            border-bottom-color: #45b7d1;
         }
 
         @keyframes fadeIn {
@@ -420,6 +537,31 @@
             border-color: rgba(255, 255, 255, 0.4);
         }
 
+        /* 状态指示器 */
+        .status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 0.9rem;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .status-indicator.success {
+            background: rgba(76, 175, 80, 0.2);
+            border-color: rgba(76, 175, 80, 0.4);
+        }
+
+        .status-indicator.error {
+            background: rgba(244, 67, 54, 0.2);
+            border-color: rgba(244, 67, 54, 0.4);
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .main-content {
@@ -428,6 +570,8 @@
             
             .sidebar {
                 width: 100%;
+                min-width: 100%;
+                max-width: 100%;
                 max-height: 300px;
             }
             
@@ -441,6 +585,16 @@
 
             .preview-card {
                 padding: 20px;
+            }
+
+            .content-controls {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .view-toggle {
+                justify-content: center;
             }
         }
 
@@ -501,6 +655,11 @@
     <!-- 浮动粒子 -->
     <div class="particles" id="particles"></div>
 
+    <!-- 状态指示器 -->
+    <div class="status-indicator" id="statusIndicator" style="display: none;">
+        正在扫描...
+    </div>
+
     <!-- 返回按钮 -->
     <button class="back-button" id="backButton" onclick="journalNav.showLanding()">
         ←
@@ -510,7 +669,7 @@
         <!-- 头部 -->
         <header class="header glass-card" onclick="journalNav.showLanding()">
             <h1>📖 A梦的日记本</h1>
-            <p>记录每一天的思考与成长 · 自动发现新内容</p>
+            <p>记录每一天的思考与成长 · 智能发现新内容</p>
         </header>
 
         <!-- 主要内容 -->
@@ -528,6 +687,19 @@
 
             <!-- 内容区域 -->
             <main class="content-area glass-card">
+                <!-- 内容控制栏 -->
+                <div class="content-controls" id="contentControls">
+                    <div class="content-title" id="contentTitle">日记标题</div>
+                    <div class="view-toggle">
+                        <button class="toggle-btn active" id="originalBtn" onclick="journalNav.switchView('original')">
+                            📄 原始样式
+                        </button>
+                        <button class="toggle-btn" id="unifiedBtn" onclick="journalNav.switchView('unified')">
+                            🎨 统一样式
+                        </button>
+                    </div>
+                </div>
+
                 <!-- 首页视图 -->
                 <div class="landing-view" id="landingView">
                     <!-- 搜索栏 -->
@@ -568,29 +740,75 @@
 
                 <!-- 日记内容 -->
                 <div class="journal-content" id="journalContent">
-                    <!-- 动态加载的日记内容 -->
+                    <!-- 原始视图 -->
+                    <div class="original-view" id="originalView">
+                        <!-- iframe内容 -->
+                    </div>
+                    
+                    <!-- 统一视图 -->
+                    <div class="unified-view" id="unifiedView">
+                        <!-- 解析后的内容 -->
+                    </div>
                 </div>
             </main>
         </div>
     </div>
 
     <script>
-        class AutoJournalNavigator {
+        class SmartJournalNavigator {
             constructor() {
                 this.journals = [];
                 this.currentJournal = null;
-                this.baseUrl = 'https://www.amengshare.com/daily/';
                 this.filteredJournals = [];
+                this.currentView = 'original'; // 'original' 或 'unified'
+                this.isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                this.baseUrl = this.isLocal ? './' : 'https://www.amengshare.com/daily/';
                 this.init();
             }
 
             async init() {
                 this.createParticles();
-                await this.autoDiscoverJournals();
+                this.showStatus('正在扫描日记文件...', 'loading');
+                
+                if (this.isLocal) {
+                    await this.discoverLocalJournals();
+                } else {
+                    await this.discoverRemoteJournals();
+                }
+                
                 this.renderJournalList();
                 this.renderPreviewGrid();
                 this.updateStats();
                 this.setupSearch();
+                this.hideStatus();
+            }
+
+            // 获取星期几
+            getWeekday(date) {
+                const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+                return weekdays[date.getDay()];
+            }
+
+            // 格式化日期为简短格式
+            formatShortDate(date) {
+                const month = date.getMonth() + 1;
+                const day = date.getDate();
+                return `${month}月${day}日`;
+            }
+
+            // 显示状态
+            showStatus(message, type = 'loading') {
+                const indicator = document.getElementById('statusIndicator');
+                indicator.textContent = message;
+                indicator.className = `status-indicator ${type}`;
+                indicator.style.display = 'block';
+            }
+
+            // 隐藏状态
+            hideStatus() {
+                setTimeout(() => {
+                    document.getElementById('statusIndicator').style.display = 'none';
+                }, 2000);
             }
 
             // 创建浮动粒子效果
@@ -608,60 +826,146 @@
                 }
             }
 
-            // 自动发现日记文件
-            async autoDiscoverJournals() {
-                const currentYear = new Date().getFullYear();
-                const startYear = 2025; // 从2025年开始扫描
+            // 发现本地日记文件
+            async discoverLocalJournals() {
+                const knownFiles = [
+                    '2025521.html',
+                    '2025522.html', 
+                    '2025523.html',
+                    '2025526.html',
+                    '2025527.html',
+                    '2025528.html'
+                ];
+
                 const foundJournals = [];
 
-                // 扫描可能的日期范围
+                for (const filename of knownFiles) {
+                    try {
+                        const response = await fetch(filename);
+                        if (response.ok) {
+                            const html = await response.text();
+                            const journal = this.parseJournal(html, filename);
+                            if (journal) {
+                                foundJournals.push(journal);
+                                console.log(`发现本地日记: ${filename}`);
+                            }
+                        }
+                    } catch (error) {
+                        console.log(`无法加载 ${filename}:`, error);
+                    }
+                }
+
+                if (foundJournals.length === 0) {
+                    await this.smartScanLocal();
+                } else {
+                    this.journals = foundJournals.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    this.filteredJournals = [...this.journals];
+                    this.showStatus(`发现 ${this.journals.length} 篇日记`, 'success');
+                }
+            }
+
+            // 智能扫描本地文件
+            async smartScanLocal() {
+                const currentYear = new Date().getFullYear();
+                const foundJournals = [];
+
+                for (let month = 1; month <= 12; month++) {
+                    const daysInMonth = new Date(currentYear, month, 0).getDate();
+                    for (let day = 1; day <= daysInMonth; day++) {
+                        const filename = `${currentYear}${month}${day}.html`;
+                        try {
+                            const response = await fetch(filename);
+                            if (response.ok) {
+                                const html = await response.text();
+                                const journal = this.parseJournal(html, filename);
+                                if (journal) {
+                                    foundJournals.push(journal);
+                                }
+                            }
+                        } catch (error) {
+                            // 静默处理
+                        }
+                    }
+                }
+
+                this.journals = foundJournals.sort((a, b) => new Date(b.date) - new Date(a.date));
+                this.filteredJournals = [...this.journals];
+                
+                if (this.journals.length > 0) {
+                    this.showStatus(`智能发现 ${this.journals.length} 篇日记`, 'success');
+                } else {
+                    this.showStatus('未发现日记文件', 'error');
+                }
+            }
+
+            // 发现远程日记文件
+            async discoverRemoteJournals() {
+                const currentYear = new Date().getFullYear();
+                const startYear = 2025;
+                const foundJournals = [];
+
                 for (let year = startYear; year <= currentYear; year++) {
                     for (let month = 1; month <= 12; month++) {
                         const daysInMonth = new Date(year, month, 0).getDate();
                         for (let day = 1; day <= daysInMonth; day++) {
-                            // 生成可能的文件名格式
                             const filename = `${year}${month}${day}.html`;
                             const paddedFilename = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}.html`;
                             
-                            // 尝试两种格式
                             for (const fname of [filename, paddedFilename]) {
                                 try {
-                                    const response = await fetch(this.baseUrl + fname);
+                                    const response = await fetch(this.baseUrl + fname, { mode: 'cors' });
                                     if (response.ok) {
                                         const html = await response.text();
                                         const journal = this.parseJournal(html, fname, year, month, day);
                                         if (journal) {
                                             foundJournals.push(journal);
-                                            console.log(`发现日记: ${fname}`);
+                                            console.log(`发现远程日记: ${fname}`);
                                         }
                                     }
                                 } catch (error) {
-                                    // 静默处理错误，继续扫描
+                                    // 静默处理CORS错误
                                 }
                             }
                         }
                     }
                 }
 
-                // 按日期排序（最新的在前）
                 this.journals = foundJournals.sort((a, b) => new Date(b.date) - new Date(a.date));
                 this.filteredJournals = [...this.journals];
                 
-                console.log(`总共发现 ${this.journals.length} 篇日记`);
+                if (this.journals.length > 0) {
+                    this.showStatus(`发现 ${this.journals.length} 篇日记`, 'success');
+                } else {
+                    this.showStatus('无法访问远程日记，可能存在CORS限制', 'error');
+                }
             }
 
             // 解析日记内容
-            parseJournal(html, filename, year, month, day) {
+            parseJournal(html, filename, year = null, month = null, day = null) {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 
                 // 提取标题
                 const title = doc.querySelector('title')?.textContent || 
                              doc.querySelector('h1')?.textContent || 
+                             doc.querySelector('.title')?.textContent ||
                              '未命名日记';
 
-                // 创建日期对象
-                const date = new Date(year, month - 1, day);
+                // 从文件名或参数提取日期
+                let date;
+                if (year && month && day) {
+                    date = new Date(year, month - 1, day);
+                } else {
+                    const dateMatch = filename.match(/(\d{4})(\d{1,2})(\d{1,2})/);
+                    if (dateMatch) {
+                        const y = parseInt(dateMatch[1]);
+                        const m = parseInt(dateMatch[2]) - 1;
+                        const d = parseInt(dateMatch[3]);
+                        date = new Date(y, m, d);
+                    } else {
+                        date = new Date();
+                    }
+                }
 
                 // 提取正文内容用于预览
                 const bodyText = doc.body.textContent || doc.body.innerText || '';
@@ -682,22 +986,23 @@
                     tags,
                     wordCount,
                     formattedDate: this.formatDate(date),
+                    shortDate: this.formatShortDate(date),
+                    weekday: this.getWeekday(date),
                     url: this.baseUrl + filename
                 };
             }
 
             // 提取预览文本
             extractPreview(text) {
-                // 清理文本并提取前200个字符
                 const cleanText = text.replace(/\s+/g, ' ').trim();
                 return cleanText.length > 200 ? cleanText.substring(0, 200) + '...' : cleanText;
             }
 
             // 提取标签
             extractTags(text) {
-                const keywords = ['设计', '开发', '学习', '思考', '工作', '生活', '创业', '技术', '产品'];
+                const keywords = ['设计', '开发', '学习', '思考', '工作', '生活', '创业', '技术', '产品', '用户', '调研', '分析'];
                 const foundTags = keywords.filter(keyword => text.includes(keyword));
-                return foundTags.slice(0, 3); // 最多3个标签
+                return foundTags.slice(0, 3);
             }
 
             // 格式化日期
@@ -709,7 +1014,7 @@
                 });
             }
 
-            // 渲染日记列表
+            // 渲染日记列表 - 只显示日期和星期
             renderJournalList() {
                 const listContainer = document.getElementById('journalList');
                 
@@ -720,8 +1025,8 @@
 
                 listContainer.innerHTML = this.filteredJournals.map((journal, index) => `
                     <div class="journal-item" onclick="journalNav.loadJournal(${this.journals.indexOf(journal)})">
-                        <div class="journal-date">${journal.formattedDate}</div>
-                        <div class="journal-title">${journal.title}</div>
+                        <div class="journal-date">${journal.shortDate}</div>
+                        <div class="journal-weekday">${journal.weekday}</div>
                     </div>
                 `).join('');
             }
@@ -742,7 +1047,7 @@
                                 <div class="preview-title">${journal.title}</div>
                                 <div style="color: rgba(255,255,255,0.6); font-size: 0.8rem;">${journal.wordCount} 字</div>
                             </div>
-                            <div class="preview-date">${journal.date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}</div>
+                            <div class="preview-date">${journal.shortDate}</div>
                         </div>
                         <div class="preview-content">${journal.preview}</div>
                         ${journal.tags.length > 0 ? `
@@ -769,42 +1074,113 @@
 
                 // 隐藏首页，显示日记内容
                 document.getElementById('landingView').style.display = 'none';
+                document.getElementById('contentControls').classList.add('visible');
                 document.getElementById('backButton').classList.add('visible');
                 
+                // 更新标题
+                document.getElementById('contentTitle').textContent = journal.title;
+                
                 const contentDiv = document.getElementById('journalContent');
-                
-                // 解析并显示内容
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(journal.content, 'text/html');
-                const bodyContent = doc.body.innerHTML;
-                
-                contentDiv.innerHTML = bodyContent;
                 contentDiv.classList.add('active');
 
-                // 调整样式
-                this.adjustContentStyles(contentDiv);
+                // 加载原始视图
+                this.loadOriginalView(journal);
+                
+                // 加载统一视图
+                this.loadUnifiedView(journal);
+
+                // 设置当前视图
+                this.switchView(this.currentView);
             }
 
-            // 调整内容样式
-            adjustContentStyles(contentDiv) {
-                const headings = contentDiv.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            // 加载原始视图
+            loadOriginalView(journal) {
+                const originalView = document.getElementById('originalView');
+                originalView.innerHTML = `
+                    <iframe src="${journal.filename}" title="${journal.title}"></iframe>
+                `;
+            }
+
+            // 加载统一视图
+            loadUnifiedView(journal) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(journal.content, 'text/html');
+                
+                // 提取并清理内容
+                const title = doc.querySelector('title')?.textContent || 
+                             doc.querySelector('h1')?.textContent || 
+                             doc.querySelector('.title')?.textContent ||
+                             journal.title;
+
+                const contentDiv = doc.querySelector('.content') || doc.body;
+                let cleanContent = contentDiv.innerHTML;
+
+                // 移除样式标签和脚本
+                cleanContent = cleanContent.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+                cleanContent = cleanContent.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+                
+                const unifiedView = document.getElementById('unifiedView');
+                unifiedView.innerHTML = `
+                    <h1>${title}</h1>
+                    <div style="margin-top: 20px;">
+                        ${cleanContent}
+                    </div>
+                `;
+
+                // 调整统一视图的样式
+                this.adjustUnifiedStyles(unifiedView);
+            }
+
+            // 调整统一视图样式
+            adjustUnifiedStyles(container) {
+                // 移除原有的样式类
+                const elements = container.querySelectorAll('*');
+                elements.forEach(el => {
+                    el.removeAttribute('class');
+                    el.removeAttribute('style');
+                });
+
+                // 重新应用样式
+                const headings = container.querySelectorAll('h1, h2, h3, h4, h5, h6');
                 headings.forEach(h => {
                     h.style.color = 'white';
                     h.style.marginBottom = '15px';
                 });
 
-                const paragraphs = contentDiv.querySelectorAll('p');
+                const paragraphs = container.querySelectorAll('p');
                 paragraphs.forEach(p => {
                     p.style.color = 'rgba(255, 255, 255, 0.8)';
                     p.style.lineHeight = '1.8';
                     p.style.marginBottom = '15px';
                 });
 
-                const lists = contentDiv.querySelectorAll('ul, ol');
+                const lists = container.querySelectorAll('ul, ol');
                 lists.forEach(list => {
                     list.style.color = 'rgba(255, 255, 255, 0.8)';
                     list.style.marginLeft = '20px';
                 });
+            }
+
+            // 切换视图模式
+            switchView(viewType) {
+                this.currentView = viewType;
+                
+                const originalView = document.getElementById('originalView');
+                const unifiedView = document.getElementById('unifiedView');
+                const originalBtn = document.getElementById('originalBtn');
+                const unifiedBtn = document.getElementById('unifiedBtn');
+
+                if (viewType === 'original') {
+                    originalView.style.display = 'block';
+                    unifiedView.style.display = 'none';
+                    originalBtn.classList.add('active');
+                    unifiedBtn.classList.remove('active');
+                } else {
+                    originalView.style.display = 'none';
+                    unifiedView.style.display = 'block';
+                    originalBtn.classList.remove('active');
+                    unifiedBtn.classList.add('active');
+                }
             }
 
             // 设置搜索功能
@@ -849,6 +1225,7 @@
             showLanding() {
                 document.getElementById('landingView').style.display = 'block';
                 document.getElementById('journalContent').classList.remove('active');
+                document.getElementById('contentControls').classList.remove('visible');
                 document.getElementById('backButton').classList.remove('visible');
                 document.querySelectorAll('.journal-item').forEach(item => {
                     item.classList.remove('active');
@@ -858,7 +1235,7 @@
         }
 
         // 初始化应用
-        const journalNav = new AutoJournalNavigator();
+        const journalNav = new SmartJournalNavigator();
 
         // 键盘导航
         document.addEventListener('keydown', (e) => {
