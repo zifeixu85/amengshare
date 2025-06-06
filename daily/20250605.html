@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A梦的创业日志</title>
+    <style>
+        /* 科技未来风格 + 蓝紫科技配色方案 */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --bg-color: #0f1322;
+            --card-bg: #1a1f35;
+            --text-color: #e0e6ff;
+            --heading-color: #ffffff;
+            --border-radius: 4px;
+            --shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+            --border-color: #2a3050;
+            --highlight-bg: rgba(102, 126, 234, 0.08);
+            --highlight-border: #667eea;
+            --accent-color: #65e6f7;
+            --grid-color: rgba(102, 126, 234, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            background-image: 
+                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            word-wrap: break-word;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--accent-color));
+            z-index: 10;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            padding: 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::after {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            top: -100px;
+            right: -50px;
+            filter: blur(20px);
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            bottom: -70px;
+            left: -30px;
+            filter: blur(15px);
+        }
+        
+        .title {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .date {
+            font-size: 1.3em;
+            font-weight: 400;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        h2 {
+            font-size: 1.5em;
+            color: var(--heading-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        h2::before {
+            content: "";
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-color);
+            margin-right: 12px;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+        
+        h3 {
+            font-size: 1.2em;
+            color: var(--heading-color);
+            margin: 15px 0 10px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background-color: rgba(26, 31, 53, 0.5);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 65%, rgba(102, 126, 234, 0.1) 100%);
+            pointer-events: none;
+        }
+        
+        .insight-card {
+            background-color: rgba(26, 31, 53, 0.7);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .insight-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
+        }
+        
+        .highlight-box {
+            background-color: var(--highlight-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .highlight-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent-color);
+        }
+        
+        .empty-card {
+            background-color: rgba(26, 31, 53, 0.3);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px dashed var(--border-color);
+            color: #5d6794;
+            text-align: center;
+            font-style: italic;
+        }
+        
+        ul {
+            padding-left: 5px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 16px;
+            position: relative;
+            list-style-type: none;
+            padding-left: 28px;
+        }
+        
+        li:before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--accent-color);
+            font-family: monospace;
+            font-weight: bold;
+        }
+        
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(101, 230, 247, 0.3);
+            transition: all 0.2s ease;
+            padding: 0 2px;
+        }
+        
+        a:hover {
+            color: var(--accent-color);
+            background-color: rgba(101, 230, 247, 0.1);
+            border-bottom-color: var(--accent-color);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+            color: #5d6794;
+            background-color: rgba(15, 19, 34, 0.5);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        
+        code {
+            font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+            background-color: rgba(15, 19, 34, 0.6);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: var(--accent-color);
+            border: 1px solid var(--border-color);
+        }
+        
+        .glow {
+            text-shadow: 0 0 5px var(--accent-color), 0 0 10px rgba(101, 230, 247, 0.5);
+        }
+        
+        .tag {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-color);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            margin-right: 5px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 30px 20px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .title {
+                font-size: 1.8em;
+            }
+            
+            .date {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">A梦的创业日志</h1>
+            <div class="date">2025年6月5日</div>
+        </header>
+        
+        <div class="content">
+            <div class="section">
+                <h2>今天做了什么</h2>
+                <div class="card">
+                    <ul>
+                        <li>
+                            <strong>观看小排老师直播</strong>
+                            <p>观看小排老师深海圈直播，看到学员们的优秀网站太羡慕了，要赶紧做作业起来！</p>
+                        </li>
+                        
+                        <li>
+                            <strong>开发环境优化</strong>
+                            <p>跟前进请教了如何在虚拟环境中用 vscode+claude code，目前已经能 claude code 自己跑，cursor还能改其他项目。</p>
+                        </li>
+                        
+                        <li>
+                            <strong>学习进行中</strong>
+                            <p>学习：n8n, 自动化航海手册，掌握自动化工作流技能。</p>
+                        </li>
+                        
+                        <li>
+                            <strong>Web航海起航</strong>
+                            <p>web航海开始，这次多做一些站，积累经验，上线一个游戏站。</p>
+                        </li>
+                        
+                        <li>
+                            <strong>产品研究</strong>
+                            <p>研究 lovart 相关信息，准备拆解其商业模式和产品特点。</p>
+                        </li>
+                        
+                        <li>
+                            <strong>知识沉淀</strong>
+                            <p>花钱买 mkdirs 模板，准备记录自己学习心得经验，沉淀相关工具网站。</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>有什么思考/收获</h2>
+                <div class="insight-card">
+                    <ul>
+                        <li>
+                            <strong class="glow">打造核心竞争力</strong>
+                            <p>要打造自己能力最长的那块板，让自己有一技之长；在需求过剩的时代，一个人的长处就是他持续成长学习的地方，也会是他最容易被人看见的地方。</p>
+                            
+                            <div class="highlight-box">
+                                <p><strong>核心洞察：</strong>在信息爆炸的时代，专注发展自己的核心优势比全面发展更有竞争力。持续深耕一个领域，才能形成真正的差异化优势。</p>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <strong class="glow">明日行动计划</strong>
+                            <p>明日计划：</p>
+                            <div style="margin-left: 20px;">
+                                <p><span class="tag">01</span> 做深海圈作业</p>
+                                <p><span class="tag">02</span> 学n8n，研究如何用n8n搭建设计灵感库的最小可测试付费意愿的demo</p>
+                                <p><span class="tag">03</span> 拆解 lovart</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>碰到什么卡点</h2>
+                <div class="empty-card">
+                    暂无记录
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>需要什么帮助</h2>
+                <div class="empty-card">
+                    暂无记录
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            © 2025 A梦的创业日志 // 探索未来 // 构建梦想
+        </footer>
+    </div>
+</body>
+</html>
